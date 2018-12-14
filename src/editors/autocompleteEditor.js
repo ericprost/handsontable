@@ -169,7 +169,8 @@ AutocompleteEditor.prototype.updateChoicesList = function(choicesList) {
   let choices = choicesList;
 
   if (sortByRelevanceSetting) {
-    orderByRelevance = AutocompleteEditor.sortByRelevance(
+    //orderByRelevance = AutocompleteEditor.sortByRelevance(
+    orderByRelevance = this.sortByRelevance( //EPRO 'this' keyword to call derived class
       this.stripValueIfNeeded(this.getValue()),
       choices,
       this.cellProperties.filteringCaseSensitive
@@ -326,7 +327,8 @@ AutocompleteEditor.prototype.highlightBestMatchingChoice = function(index) {
  * @param caseSensitive
  * @returns {Array} array of indexes in original choices array
  */
-AutocompleteEditor.sortByRelevance = function(value, choices, caseSensitive) {
+//AutocompleteEditor.sortByRelevance = function (value, choices, caseSensitive) {
+AutocompleteEditor.prototype.sortByRelevance = function(value, choices, caseSensitive) { //EPRO misssing 'prototype' keyword
   const choicesRelevance = [];
   let currentItem;
   const valueLength = value.length;
