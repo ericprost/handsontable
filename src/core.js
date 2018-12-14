@@ -768,7 +768,21 @@ export default function Core(rootElement, userSettings, rootInstanceSymbol = fal
                   value = isUndefined(result.value) ? value : result.value;
                 }
               }
-              if (value !== null && typeof value === 'object') {
+              ///////////////////////////////////////////////////////////////
+              // EPRO
+              // Mauvaise gestion des [key,val] utilisés dans les champs autocomplete
+              // Le problème se situe dans populateFromArray : lorsque les ancienne et nouvelle valeur ne sont pas du même type (par exemple
+              // si on veut écraser [key,val] par un string ou inversement), on ne va pas plus loin et la modification n'est pas envoyée à setDataAtCell
+              // => on rajoute ces lignes pour traiter les Array[key,val] et passer les tests suivants qui posent problème
+              //    lorsque orgValue et value ne sont pas du même type (écraser [key,val] par un string ou inversement)
+              if ((orgValue && Array.isArray(orgValue)) ||
+                (value && Array.isArray(value))) {
+                value = Handsontable.helper.deepClone(value);//FIXME à quoi ça sert ? pour le setData.push ?
+                pushData = true;
+              }
+              ///////////////////////////////////////////////////////////////
+              //if (value !== null && typeof value === 'object') {
+              else if (value !== null && typeof value === 'object') {
                 if (orgValue === null || typeof orgValue !== 'object') {
                   pushData = false;
 
