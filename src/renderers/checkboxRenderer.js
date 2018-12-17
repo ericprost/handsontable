@@ -56,6 +56,7 @@ function checkboxRenderer(instance, TD, row, col, prop, value, cellProperties, .
 
   input.setAttribute('data-row', row);
   input.setAttribute('data-col', col);
+  input.setAttribute('data-guid', instance.guid); // EPRO store hot guid to ensure event target is the correct one
 
   if (!badValue && labelOptions) {
     let labelText = '';
@@ -275,6 +276,7 @@ function onMouseUp(event, instance) {
   if (!isCheckboxInput(event.target)) {
     return;
   }
+  if (event.target.getAttribute('data-guid') !== instance.guid) return; // EPRO store hot guid to ensure event target is the correct one
   setTimeout(instance.listen, 10);
 }
 
@@ -289,6 +291,7 @@ function onClick(event, instance) {
   if (!isCheckboxInput(event.target)) {
     return false;
   }
+  if (event.target.getAttribute('data-guid') !== instance.guid) return false; // EPRO store hot guid to ensure event target is the correct one
 
   const row = parseInt(event.target.getAttribute('data-row'), 10);
   const col = parseInt(event.target.getAttribute('data-col'), 10);
@@ -311,6 +314,7 @@ function onChange(event, instance) {
   if (!isCheckboxInput(event.target)) {
     return false;
   }
+  if (event.target.getAttribute('data-guid') !== instance.guid) return false; // EPRO store hot guid to ensure event target is the correct one
 
   const row = parseInt(event.target.getAttribute('data-row'), 10);
   const col = parseInt(event.target.getAttribute('data-col'), 10);
