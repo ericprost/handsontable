@@ -13,6 +13,7 @@ import {
   getTrimmingContainer,
   setCaretPosition,
 } from './../helpers/dom/element';
+import { isImmediatePropagationStopped } from './../helpers/dom/event';//EPRO add ability to stop keyboard event propagation from descendants
 import HandsontableEditor from './handsontableEditor';
 
 const AutocompleteEditor = HandsontableEditor.prototype.extend();
@@ -53,6 +54,10 @@ AutocompleteEditor.prototype.createElements = function(...args) {
 
 let skipOne = false;
 function onBeforeKeyDown(event) {
+  if (isImmediatePropagationStopped(event)) {//EPRO add ability to stop keyboard event propagation from descendants
+    return;                                  //EPRO
+  }                                          //EPRO
+
   skipOne = false;
   const editor = this.getActiveEditor();
 
